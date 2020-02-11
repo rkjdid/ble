@@ -169,6 +169,14 @@ func (h *HCI) Close() error {
 	return h.close(nil)
 }
 
+func (h *HCI) CloseConnections() {
+	h.muConns.Lock()
+	for _, conn := range h.conns {
+		conn.Close()
+	}
+	h.muConns.Unlock()
+}
+
 // Error ...
 func (h *HCI) Error() error {
 	return h.err
